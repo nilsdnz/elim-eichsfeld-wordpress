@@ -16,5 +16,5 @@ jobs:
       - name: Push to production
         uses: dokku/github-action@master
         with:
-          git_remote_url: 'ssh://dokku@wordpress-template.ist.so:22/wp-template'
+          git_remote_url: $GIT_REMOTE_URL
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
