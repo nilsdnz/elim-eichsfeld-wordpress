@@ -2,7 +2,7 @@
 
 ## Setup Script
 
-```
+```bash
 #!/bin/bash
 
 echo "WordPress Setup Script"
@@ -37,6 +37,8 @@ then
   dokku config:set $app WEB_HOST=https://$domain --no-restart
   curl -sS "https://api.wordpress.org/secret-key/1.1/salt/" | awk -F"'" '{printf "WP_%s=\047%s\047 ", $2, $4}' | xargs dokku config:set $app --no-restart
 
+  echo "Configuring Nginx..."
+  dokku nginx:set $app client-max-body-size 512m
 
   echo "Setting up Lets encrypt..."
   dokku letsencrypt:set $app email $ssl_email
