@@ -1,0 +1,20 @@
+name: 'Production deploy'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-to-production:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cloning repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Push to production
+        uses: dokku/github-action@master
+        with:
+          git_remote_url: ${{ vars.GIT_REMOTE_URL }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}

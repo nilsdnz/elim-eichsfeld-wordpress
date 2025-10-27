@@ -1,0 +1,18 @@
+{
+	"require": {
+		"php": "^8.4",
+		"ext-json": "*",
+		"ext-mysqli": "*",
+		"ext-curl": "*",
+		"ext-dom": "*",
+		"ext-exif": "*",
+		"ext-fileinfo": "*",
+		"ext-hash": "*",
+		"ext-intl": "*",
+		"ext-mbstring": "*",
+		"ext-openssl": "*",
+		"ext-pcre": "*",
+		"ext-xml": "*",
+		"ext-zip": "*"
+	}
+}

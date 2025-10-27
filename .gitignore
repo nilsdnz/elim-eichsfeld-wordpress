@@ -1,0 +1,9 @@
+/web/wp-content/uploads/
+/web/wp-content/cache/
+
+.env
+
+/.idea/
+.DS_Store
+
+/vendor
