@@ -6,13 +6,6 @@
 // We plan to gradually remove all of the disabled lint rules below.
 // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 
-<<<<<<< HEAD
-class Akismet_Widget extends WP_Widget {
-
-	function __construct() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'akismet_widget_enqueue_styles' ) );
-
-=======
 /**
  * Akismet Widget Class
  */
@@ -22,7 +15,6 @@ class Akismet_Widget extends WP_Widget {
 	* Constructor
 	*/
 	function __construct() {
->>>>>>> template/main
 		parent::__construct(
 			'akismet_widget',
 			__( 'Akismet Widget', 'akismet' ),
@@ -30,17 +22,6 @@ class Akismet_Widget extends WP_Widget {
 		);
 	}
 
-<<<<<<< HEAD
-	public function akismet_widget_enqueue_styles() {
-		// Register the stylesheet handle
-		wp_register_style( 'akismet-widget-style', false ); // No external file, just a handle
-
-		// Enqueue the registered stylesheet
-		wp_enqueue_style( 'akismet-widget-style' );
-
-		// Add inline styles
-		$inline_css = "
-=======
 	/**
 	 * Outputs the widget settings form
 	 *
@@ -97,7 +78,6 @@ class Akismet_Widget extends WP_Widget {
 		?>
 
 		<style>
->>>>>>> template/main
 			.a-stats {
 				--akismet-color-mid-green: #357b49;
 				--akismet-color-white: #fff;
@@ -154,55 +134,9 @@ class Akismet_Widget extends WP_Widget {
 				padding: 0 13px;
 				white-space: nowrap;
 			}
-<<<<<<< HEAD
-		";
-		wp_add_inline_style( 'akismet-widget-style', $inline_css );
-	}
-
-	function form( $instance ) {
-		if ( $instance && isset( $instance['title'] ) ) {
-			$title = $instance['title'];
-		} else {
-			$title = __( 'Spam Blocked', 'akismet' );
-		}
-		?>
-
-		<p>
-		<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title:', 'akismet' ); ?></label>
-		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
-		</p>
-
-		<?php
-	}
-
-	function update( $new_instance, $old_instance ) {
-		$instance          = array();
-		$instance['title'] = strip_tags( $new_instance['title'] );
-		return $instance;
-	}
-
-	function widget( $args, $instance ) {
-		$count = get_option( 'akismet_spam_count' );
-
-		if ( ! isset( $instance['title'] ) ) {
-			$instance['title'] = __( 'Spam Blocked', 'akismet' );
-		}
-
-		echo $args['before_widget'];
-		if ( ! empty( $instance['title'] ) ) {
-			echo $args['before_title'];
-			echo esc_html( $instance['title'] );
-			echo $args['after_title'];
-		}
-		?>
-
-		<div class="a-stats">
-			<?php // Specifying colors inline for maximum specificity without using !important ?>
-=======
 		</style>
 
 		<div class="a-stats">
->>>>>>> template/main
 			<a href="https://akismet.com" class="a-stats__link" target="_blank" rel="noopener" style="background-color: var(--akismet-color-mid-green); color: var(--akismet-color-white);">
 				<?php
 
@@ -233,12 +167,9 @@ class Akismet_Widget extends WP_Widget {
 	}
 }
 
-<<<<<<< HEAD
-=======
 /**
  * Register the Akismet widget
  */
->>>>>>> template/main
 function akismet_register_widgets() {
 	register_widget( 'Akismet_Widget' );
 }

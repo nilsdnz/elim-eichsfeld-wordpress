@@ -463,9 +463,6 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			}
 
 			foreach ( $query_result as $post ) {
-<<<<<<< HEAD
-				if ( ! $this->check_read_permission( $post ) ) {
-=======
 				if ( 'edit' === $request['context'] ) {
 					$permission = $this->check_update_permission( $post );
 				} else {
@@ -473,7 +470,6 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				}
 
 				if ( ! $permission ) {
->>>>>>> template/main
 					continue;
 				}
 

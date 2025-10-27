@@ -529,9 +529,6 @@
 				return;
 			}
 
-<<<<<<< HEAD
-			this.currentMenuControl.addItemToMenu( menu_item.attributes );
-=======
 			// Leave the title as empty to reuse the original title as a placeholder if set.
 			var nav_menu_item = Object.assign( {}, menu_item.attributes );
 			if ( nav_menu_item.title === nav_menu_item.original_title ) {
@@ -539,7 +536,6 @@
 			}
 
 			this.currentMenuControl.addItemToMenu( nav_menu_item );
->>>>>>> template/main
 
 			$( menuitemTpl ).find( '.menu-item-handle' ).addClass( 'item-added' );
 		},
@@ -3146,10 +3142,6 @@
 				item,
 				{
 					nav_menu_term_id: menuControl.params.menu_id,
-<<<<<<< HEAD
-					original_title: item.title,
-=======
->>>>>>> template/main
 					position: position
 				}
 			);

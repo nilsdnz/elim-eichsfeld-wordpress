@@ -696,12 +696,9 @@ class Akismet_Admin {
 						case 'check-ham':
 							$message = esc_html( __( 'Akismet cleared this comment.', 'akismet' ) );
 							break;
-<<<<<<< HEAD
-=======
 						case 'check-ham-pending':
 							$message = esc_html( __( 'Akismet provisionally cleared this comment.', 'akismet' ) );
 							break;
->>>>>>> template/main
 						case 'wp-blacklisted':
 						case 'wp-disallowed':
 							$message = sprintf(
@@ -1436,9 +1433,6 @@ class Akismet_Admin {
 	 * @return bool Whether to exclude this meta entry from the export.
 	 */
 	public static function exclude_commentmeta_from_export( $exclude, $key, $meta ) {
-<<<<<<< HEAD
-		if ( in_array( $key, array( 'akismet_as_submitted', 'akismet_rechecking', 'akismet_delayed_moderation_email' ) ) ) {
-=======
 		if (
 			in_array(
 				$key,
@@ -1453,7 +1447,6 @@ class Akismet_Admin {
 				)
 			)
 		) {
->>>>>>> template/main
 			return true;
 		}
 

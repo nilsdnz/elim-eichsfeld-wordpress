@@ -22,10 +22,6 @@ class Akismet {
 
 	private static $last_comment                                = '';
 	private static $initiated                                   = false;
-<<<<<<< HEAD
-	private static $prevent_moderation_email_for_these_comments = array();
-=======
->>>>>>> template/main
 	private static $last_comment_result                         = null;
 	private static $comment_as_submitted_allowed_keys           = array(
 		'blog'                 => '',
@@ -67,12 +63,9 @@ class Akismet {
 		self::$initiated = true;
 
 		add_action( 'wp_insert_comment', array( 'Akismet', 'auto_check_update_meta' ), 10, 2 );
-<<<<<<< HEAD
-=======
 		add_action( 'wp_insert_comment', array( 'Akismet', 'schedule_email_fallback' ), 10, 2 );
 		add_action( 'wp_insert_comment', array( 'Akismet', 'schedule_approval_fallback' ), 10, 2 );
 
->>>>>>> template/main
 		add_filter( 'preprocess_comment', array( 'Akismet', 'auto_check_comment' ), 1 );
 		add_filter( 'rest_pre_insert_comment', array( 'Akismet', 'rest_auto_check_comment' ), 1 );
 
@@ -84,23 +77,16 @@ class Akismet {
 		add_action( 'akismet_scheduled_delete', array( 'Akismet', 'delete_orphaned_commentmeta' ) );
 		add_action( 'akismet_schedule_cron_recheck', array( 'Akismet', 'cron_recheck' ) );
 
-<<<<<<< HEAD
-=======
 		add_action( 'akismet_email_fallback', array( 'Akismet', 'email_fallback' ), 10, 3 );
 		add_action( 'akismet_approval_fallback', array( 'Akismet', 'approval_fallback' ), 10, 3 );
 
->>>>>>> template/main
 		add_action( 'comment_form', array( 'Akismet', 'add_comment_nonce' ), 1 );
 		add_action( 'comment_form', array( 'Akismet', 'output_custom_form_fields' ) );
 		add_filter( 'script_loader_tag', array( 'Akismet', 'set_form_js_async' ), 10, 3 );
 
-<<<<<<< HEAD
-		add_filter( 'comment_moderation_recipients', array( 'Akismet', 'disable_moderation_emails_if_unreachable' ), 1000, 2 );
-=======
 		add_filter( 'notify_moderator', array( 'Akismet', 'disable_emails_if_unreachable' ), 1000, 2 );
 		add_filter( 'notify_post_author', array( 'Akismet', 'disable_emails_if_unreachable' ), 1000, 2 );
 
->>>>>>> template/main
 		add_filter( 'pre_comment_approved', array( 'Akismet', 'last_comment_status' ), 10, 2 );
 
 		add_action( 'transition_comment_status', array( 'Akismet', 'transition_comment_status' ), 10, 3 );
@@ -385,13 +371,10 @@ class Akismet {
 			}
 		}
 
-<<<<<<< HEAD
-=======
 		// Set the webhook callback URL. The Akismet servers may make a request to this URL
 		// if a comment's spam status changes.
 		$comment['callback'] = get_rest_url( null, 'akismet/v1/webhook' );
 
->>>>>>> template/main
 		/**
 		 * Filter the data that is used to generate the request body for the API call.
 		 *
@@ -431,8 +414,6 @@ class Akismet {
 		if ( isset( $response[0]['x-akismet-guid'] ) ) {
 			$commentdata['akismet_guid'] = $response[0]['x-akismet-guid'];
 			$commentdata['comment_meta']['akismet_guid'] = $response[0]['x-akismet-guid'];
-<<<<<<< HEAD
-=======
 
 			if ( 'false' === $response[1] ) {
 				// If Akismet has indicated that there is more processing to be done before this comment
@@ -459,7 +440,6 @@ class Akismet {
 					$commentdata['comment_meta']['akismet_schedule_email_fallback'] = $delay;
 				}
 			}
->>>>>>> template/main
 		}
 
 		$commentdata['comment_meta']['akismet_as_submitted'] = $commentdata['comment_as_submitted'];
@@ -507,20 +487,12 @@ class Akismet {
 				self::$last_comment_result = '0';
 			}
 
-<<<<<<< HEAD
-=======
 			$commentdata['comment_meta']['akismet_delay_moderation_email'] = true;
 
->>>>>>> template/main
 			if ( ! wp_next_scheduled( 'akismet_schedule_cron_recheck' ) ) {
 				wp_schedule_single_event( time() + 1200, 'akismet_schedule_cron_recheck' );
 				do_action( 'akismet_scheduled_recheck', 'invalid-response-' . $response[1] );
 			}
-<<<<<<< HEAD
-
-			self::$prevent_moderation_email_for_these_comments[] = $commentdata;
-=======
->>>>>>> template/main
 		}
 
 		// Delete old comments daily
@@ -572,16 +544,12 @@ class Akismet {
 						);
 					}
 				} elseif ( isset( self::$last_comment['akismet_result'] ) && self::$last_comment['akismet_result'] == 'false' ) {
-<<<<<<< HEAD
-					self::update_comment_history( $comment->comment_ID, '', 'check-ham' );
-=======
 					if ( get_comment_meta( $comment->comment_ID, 'akismet_schedule_approval_fallback', true ) ) {
 						self::update_comment_history( $comment->comment_ID, '', 'check-ham-pending' );
 					} else {
 						self::update_comment_history( $comment->comment_ID, '', 'check-ham' );
 					}
 
->>>>>>> template/main
 					// Status could be spam or trash, depending on the WP version and whether this change applies:
 					// https://core.trac.wordpress.org/changeset/34726
 					if ( $comment->comment_approved == 'spam' || $comment->comment_approved == 'trash' ) {
@@ -615,8 +583,6 @@ class Akismet {
 		}
 	}
 
-<<<<<<< HEAD
-=======
 	/**
 	 * After the comment has been inserted, we have access to the comment ID. Now, we can
 	 * schedule the fallback moderation/notification emails using the comment ID instead
@@ -728,7 +694,6 @@ class Akismet {
 		}
 	}
 
->>>>>>> template/main
 	public static function delete_old_comments() {
 		global $wpdb;
 
@@ -918,10 +883,7 @@ class Akismet {
 		$history[] = array( 'time' => 445856403, 'event' => 'check-spam' );
 		$history[] = array( 'time' => 445856404, 'event' => 'recheck-ham' );
 		$history[] = array( 'time' => 445856405, 'event' => 'check-ham' );
-<<<<<<< HEAD
-=======
 		$history[] = array( 'time' => 445856405, 'event' => 'check-ham-pending' );
->>>>>>> template/main
 		$history[] = array( 'time' => 445856406, 'event' => 'wp-blacklisted' );
 		$history[] = array( 'time' => 445856406, 'event' => 'wp-disallowed' );
 		$history[] = array( 'time' => 445856407, 'event' => 'report-spam' );
@@ -1040,26 +1002,18 @@ class Akismet {
 			wp_set_comment_status( $id, 'spam' );
 			update_comment_meta( $id, 'akismet_result', 'true' );
 			delete_comment_meta( $id, 'akismet_error' );
-<<<<<<< HEAD
-			delete_comment_meta( $id, 'akismet_delayed_moderation_email' );
-=======
 			delete_comment_meta( $id, 'akismet_delay_moderation_email' );
 			delete_comment_meta( $id, 'akismet_delayed_moderation_email' );
 			delete_comment_meta( $id, 'akismet_schedule_approval_fallback' );
 			delete_comment_meta( $id, 'akismet_schedule_email_fallback' );
->>>>>>> template/main
 			self::update_comment_history( $id, '', 'recheck-spam' );
 		} elseif ( 'false' === $api_response ) {
 			update_comment_meta( $id, 'akismet_result', 'false' );
 			delete_comment_meta( $id, 'akismet_error' );
-<<<<<<< HEAD
-			delete_comment_meta( $id, 'akismet_delayed_moderation_email' );
-=======
 			delete_comment_meta( $id, 'akismet_delay_moderation_email' );
 			delete_comment_meta( $id, 'akismet_delayed_moderation_email' );
 			delete_comment_meta( $id, 'akismet_schedule_approval_fallback' );
 			delete_comment_meta( $id, 'akismet_schedule_email_fallback' );
->>>>>>> template/main
 			self::update_comment_history( $id, '', 'recheck-ham' );
 		} else {
 			// abnormal result: error
@@ -1327,14 +1281,10 @@ class Akismet {
 				|| $comment->comment_approved !== '0' // Comment is no longer in the Pending queue
 				) {
 				delete_comment_meta( $comment_id, 'akismet_error' );
-<<<<<<< HEAD
-				delete_comment_meta( $comment_id, 'akismet_delayed_moderation_email' );
-=======
 				delete_comment_meta( $comment_id, 'akismet_delay_moderation_email' );
 				delete_comment_meta( $comment_id, 'akismet_delayed_moderation_email' );
 				delete_comment_meta( $comment_id, 'akismet_schedule_approval_fallback' );
 				delete_comment_meta( $comment_id, 'akismet_schedule_email_fallback' );
->>>>>>> template/main
 				continue;
 			}
 
@@ -1366,57 +1316,37 @@ class Akismet {
 						if ( check_comment( $comment->comment_author, $comment->comment_author_email, $comment->comment_author_url, $comment->comment_content, $comment->comment_author_IP, $comment->comment_agent, $comment->comment_type ) ) {
 							wp_set_comment_status( $comment_id, 1 );
 						} elseif ( get_comment_meta( $comment_id, 'akismet_delayed_moderation_email', true ) ) {
-<<<<<<< HEAD
-							wp_notify_moderator( $comment_id );
-=======
 							wp_new_comment_notify_moderator( $comment_id );
 							wp_new_comment_notify_postauthor( $comment_id );
->>>>>>> template/main
 						}
 					}
 				}
 
-<<<<<<< HEAD
-=======
 				delete_comment_meta( $comment_id, 'akismet_delay_moderation_email' );
->>>>>>> template/main
 				delete_comment_meta( $comment_id, 'akismet_delayed_moderation_email' );
 			} else {
 				// If this comment has been pending moderation for longer than MAX_DELAY_BEFORE_MODERATION_EMAIL,
 				// send a moderation email now.
 				if ( ( intval( gmdate( 'U' ) ) - strtotime( $comment->comment_date_gmt ) ) < self::MAX_DELAY_BEFORE_MODERATION_EMAIL ) {
-<<<<<<< HEAD
-					delete_comment_meta( $comment_id, 'akismet_delayed_moderation_email' );
-					wp_notify_moderator( $comment_id );
-=======
 					delete_comment_meta( $comment_id, 'akismet_delay_moderation_email' );
 					delete_comment_meta( $comment_id, 'akismet_delayed_moderation_email' );
 
 					wp_new_comment_notify_moderator( $comment_id );
 					wp_new_comment_notify_postauthor( $comment_id );
->>>>>>> template/main
 				}
 
 				delete_comment_meta( $comment_id, 'akismet_rechecking' );
 				wp_schedule_single_event( time() + 1200, 'akismet_schedule_cron_recheck' );
 				do_action( 'akismet_scheduled_recheck', 'check-db-comment-' . $status );
-<<<<<<< HEAD
-				return;
-			}
-=======
 
 				return;
 			}
 
->>>>>>> template/main
 			delete_comment_meta( $comment_id, 'akismet_rechecking' );
 		}
 
 		$remaining = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->commentmeta} WHERE meta_key = 'akismet_error'" );
-<<<<<<< HEAD
-=======
 
->>>>>>> template/main
 		if ( $remaining && ! wp_next_scheduled( 'akismet_schedule_cron_recheck' ) ) {
 			wp_schedule_single_event( time() + 1200, 'akismet_schedule_cron_recheck' );
 			do_action( 'akismet_scheduled_recheck', 'remaining' );
@@ -1617,34 +1547,6 @@ class Akismet {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * If Akismet is temporarily unreachable, we don't want to "spam" the blogger with
-	 * moderation emails for comments that will be automatically cleared or spammed on
-	 * the next retry.
-	 *
-	 * For comments that will be rechecked later, empty the list of email addresses that
-	 * the moderation email would be sent to.
-	 *
-	 * @param array $emails An array of email addresses that the moderation email will be sent to.
-	 * @param int   $comment_id The ID of the relevant comment.
-	 * @return array An array of email addresses that the moderation email will be sent to.
-	 */
-	public static function disable_moderation_emails_if_unreachable( $emails, $comment_id ) {
-		if ( ! empty( self::$prevent_moderation_email_for_these_comments ) && ! empty( $emails ) ) {
-			$matching_fields = self::get_fields_for_comment_matching( $comment_id );
-
-			// self::$prevent_moderation_email_for_these_comments is an array of $commentdata objects
-			// saved immediately after the comment-check request completes.
-			foreach ( self::$prevent_moderation_email_for_these_comments as $possible_match ) {
-				if ( self::comments_match( $possible_match, $matching_fields ) ) {
-					update_comment_meta( $comment_id, 'akismet_delayed_moderation_email', true );
-					return array();
-				}
-			}
-		}
-
-		return $emails;
-=======
 	 * If Akismet is temporarily unreachable, we don't want to "spam" the blogger or post author
 	 * with emails for comments that will be automatically cleared or spammed on the next retry.
 	 *
@@ -1668,7 +1570,6 @@ class Akismet {
 		}
 
 		return $maybe_notify;
->>>>>>> template/main
 	}
 
 	public static function _cmp_time( $a, $b ) {
@@ -2242,10 +2143,7 @@ p {
 			'cron-retry-ham',
 			'cron-retry-spam',
 			'check-ham',
-<<<<<<< HEAD
-=======
 			'check-ham-pending',
->>>>>>> template/main
 			'check-spam',
 			'recheck-error',
 			'recheck-ham',

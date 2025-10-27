@@ -16,11 +16,7 @@
  *
  * @global string $wp_version
  */
-<<<<<<< HEAD
-$wp_version = '6.8.2';
-=======
 $wp_version = '6.8.3';
->>>>>>> template/main
 
 /**
  * Holds the WordPress DB revision, increments when changes are made to the WordPress DB schema.

@@ -60,8 +60,6 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<p>
 					<?php
 					printf(
-<<<<<<< HEAD
-=======
 						/* translators: %s: WordPress version. */
 						__( '<strong>Version %s</strong> addressed some security issues.' ),
 						'6.8.3'
@@ -82,7 +80,6 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<p>
 					<?php
 					printf(
->>>>>>> template/main
 						/* translators: 1: WordPress version number, 2: Plural number of bugs. */
 						_n(
 							'<strong>Version %1$s</strong> addressed %2$s bug.',
