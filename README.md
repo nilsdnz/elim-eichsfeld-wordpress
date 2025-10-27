@@ -47,3 +47,11 @@ then
   echo "Finished WordPress setup!"
 fi
 ```
+
+## Update Repositories
+
+```bash
+git remote add template https://github.com/nilsdnz/wordpress-template.git
+git fetch --all
+git merge template/main --allow-unrelated-histories
+```
