@@ -220,7 +220,11 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		if ( 'edit' === $request['context'] && ! current_user_can( 'list_users' ) ) {
 			return new WP_Error(
 				'rest_forbidden_context',
+<<<<<<< HEAD
 				__( 'Sorry, you are not allowed to list users.' ),
+=======
+				__( 'Sorry, you are not allowed to edit users.' ),
+>>>>>>> template/main
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -379,6 +383,13 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			$users = array();
 
 			foreach ( $query->get_results() as $user ) {
+<<<<<<< HEAD
+=======
+				if ( 'edit' === $request['context'] && ! current_user_can( 'edit_user', $user->ID ) ) {
+					continue;
+				}
+
+>>>>>>> template/main
 				$data    = $this->prepare_item_for_response( $user, $request );
 				$users[] = $this->prepare_response_for_collection( $data );
 			}
@@ -479,6 +490,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			return true;
 		}
 
+<<<<<<< HEAD
 		if ( 'edit' === $request['context'] && ! current_user_can( 'list_users' ) ) {
 			return new WP_Error(
 				'rest_user_cannot_view',
@@ -486,6 +498,17 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 				array( 'status' => rest_authorization_required_code() )
 			);
 		} elseif ( ! count_user_posts( $user->ID, $types ) && ! current_user_can( 'edit_user', $user->ID ) && ! current_user_can( 'list_users' ) ) {
+=======
+		if ( 'edit' === $request['context'] && ! current_user_can( 'edit_user', $user->ID ) ) {
+			return new WP_Error(
+				'rest_forbidden_context',
+				__( 'Sorry, you are not allowed to edit this user.' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		if ( ! current_user_can( 'edit_user', $user->ID ) && ! current_user_can( 'list_users' ) && ! count_user_posts( $user->ID, $types ) ) {
+>>>>>>> template/main
 			return new WP_Error(
 				'rest_user_cannot_view',
 				__( 'Sorry, you are not allowed to list users.' ),
@@ -1086,7 +1109,11 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			$data['slug'] = $user->user_nicename;
 		}
 
+<<<<<<< HEAD
 		if ( in_array( 'roles', $fields, true ) ) {
+=======
+		if ( in_array( 'roles', $fields, true ) && ( current_user_can( 'list_users' ) || current_user_can( 'edit_user', $user->ID ) ) ) {
+>>>>>>> template/main
 			// Defensively call array_values() to ensure an array is returned.
 			$data['roles'] = array_values( $user->roles );
 		}

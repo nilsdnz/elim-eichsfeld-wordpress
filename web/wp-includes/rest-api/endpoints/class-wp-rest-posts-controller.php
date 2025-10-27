@@ -463,7 +463,17 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			}
 
 			foreach ( $query_result as $post ) {
+<<<<<<< HEAD
 				if ( ! $this->check_read_permission( $post ) ) {
+=======
+				if ( 'edit' === $request['context'] ) {
+					$permission = $this->check_update_permission( $post );
+				} else {
+					$permission = $this->check_read_permission( $post );
+				}
+
+				if ( ! $permission ) {
+>>>>>>> template/main
 					continue;
 				}
 
